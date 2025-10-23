@@ -89,29 +89,70 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- INITIALIZATION ---
     async function initialize() {
         try {
-            const response = await fetch('data.json');
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            allData = await response.json();
+            showLoadingState('Loading membership data...');
             
-            if (!allData || !Array.isArray(allData) || allData.length === 0) {
-                throw new Error('No valid data found in data.json');
+            // Try to fetch from the API endpoint
+            const response = await fetch('/api/fetch-data');
+            if (!response.ok) {
+                throw new Error(`API error! status: ${response.status}`);
             }
+            
+            const result = await response.json();
+            
+            // Handle both direct data and wrapped API response
+            allData = result.data || result;
+            
+            if (!Array.isArray(allData) || allData.length === 0) {
+                throw new Error('No data received from API');
+            }
+            
+            console.log(`Loaded ${allData.length} records ${result.cached ? '(cached)' : '(fresh)'}`);
             
             setupColumns();
             populateFilters(allData);
             addEventListeners();
             render();
+            
+            // Show last update info if available
+            if (result.lastFetch) {
+                const lastUpdate = new Date(result.lastFetch).toLocaleString();
+                console.log(`Data last updated: ${lastUpdate}`);
+            }
+            
         } catch (error) {
             console.error("Failed to load or process data:", error);
-            if (tableBody) {
-                tableBody.innerHTML = `<tr><td colspan="10" class="error">Error: ${error.message}</td></tr>`;
-            }
+            showErrorState(`Failed to load data: ${error.message}`);
         } finally {
-            if (loader) {
-                loader.style.display = 'none';
-            }
+            hideLoadingState();
         }
     }
+
+    function showLoadingState(message = 'Loading...') {
+        if (loader) loader.style.display = 'block';
+        if (tableBody) {
+            tableBody.innerHTML = `<tr><td colspan="10" class="loading">${message}</td></tr>`;
+        }
+    }
+
+    function showErrorState(message) {
+        if (tableBody) {
+            tableBody.innerHTML = `<tr><td colspan="10" class="error">
+                <i class="fa-solid fa-triangle-exclamation"></i> ${message}
+                <br><button onclick="refreshData()" class="retry-btn">
+                    <i class="fa-solid fa-refresh"></i> Retry
+                </button>
+            </td></tr>`;
+        }
+    }
+
+    function hideLoadingState() {
+        if (loader) loader.style.display = 'none';
+    }
+
+    // Global function for retry button
+    window.refreshData = function() {
+        initialize();
+    };
 
     // --- RENDERING PIPELINE ---
     function render() {

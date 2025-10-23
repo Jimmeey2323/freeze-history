@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "api/fetch-data.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "MOMENCE_ALL_COOKIES": "@momence_all_cookies",
+    "GOOGLE_CLIENT_ID": "@google_client_id",
+    "GOOGLE_CLIENT_SECRET": "@google_client_secret",
+    "GOOGLE_REFRESH_TOKEN": "@google_refresh_token",
+    "SPREADSHEET_ID": "@spreadsheet_id"
+  },
+  "rewrites": [
+    {
+      "source": "/data.json",
+      "destination": "/api/fetch-data"
+    }
+  ]
+}

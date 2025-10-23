@@ -365,6 +365,49 @@ footer {
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.4) !important;
 }
 
+/* === LOADING AND ERROR STATES === */
+.loading {
+    text-align: center !important;
+    color: var(--accent-color) !important;
+    font-style: italic;
+    padding: 40px !important;
+}
+
+.error {
+    text-align: center !important;
+    color: var(--danger-color) !important;
+    padding: 40px !important;
+}
+
+.error i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.retry-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.retry-btn:hover {
+    background: #0099dd;
+    transform: translateY(-1px);
+}
+
+.retry-btn i {
+    margin-right: 5px;
+    font-size: 14px !important;
+    display: inline !important;
+}
+
 /* === RESPONSIVE ADJUSTMENTS === */
 @media (max-width: 768px) {
     .detail-container {

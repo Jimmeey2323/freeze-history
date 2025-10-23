@@ -1,15 +1,27 @@
 {
   "name": "freeze-history",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Enhanced membership dashboard with freeze history tracking",
+  "main": "index.html",
   "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build step required'",
+    "start": "vercel dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "axios": "^1.12.2",
     "googleapis": "^160.0.0"
-  }
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
+  },
+  "keywords": [
+    "membership",
+    "dashboard",
+    "freeze-history",
+    "analytics"
+  ],
+  "author": "",
+  "license": "ISC"
 }
