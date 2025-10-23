@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Membership Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for premium icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fa-solid fa-chart-line"></i> Membership Intelligence</h1>
+            <p>A dynamic view of freeze history, session usage, and membership status.</p>
+        </header>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="search-box main-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="globalSearch" placeholder="Search across all visible fields...">
+            </div>
+            <div class="filters">
+                <select id="memberNameFilter"><option value="">All Members</option></select>
+                <select id="membershipNameFilter"><option value="">All Memberships</option></select>
+                <select id="statusFilter"><option value="">All Statuses</option></select>
+                <select id="viewMode">
+                    <option value="summary">Summary View</option>
+                    <option value="detailed">Detailed View</option>
+                    <option value="freeze-focused">Freeze-Focused View</option>
+                </select>
+            </div>
+            <div class="tools">
+                <!-- Column Visibility Dropdown -->
+                <div class="dropdown">
+                    <button class="tool-btn"><i class="fa-solid fa-eye"></i> Columns</button>
+                    <div class="dropdown-content" id="columnToggle">
+                        <!-- Checkboxes will be populated here -->
+                    </div>
+                </div>
+                <!-- Export Dropdown -->
+                <div class="dropdown">
+                    <button class="tool-btn"><i class="fa-solid fa-download"></i> Export</button>
+                    <div class="dropdown-content">
+                        <a href="#" id="exportCsv">Export as CSV</a>
+                        <a href="#" id="exportJson">Export as JSON</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="table-container">
+            <table id="dataTable">
+                <thead id="tableHead">
+                    <!-- Headers will be populated by JS -->
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data rows will be populated here -->
+                    <!-- Each row can have a child row for detailed information -->
+                </tbody>
+            </table>
+            <div id="loader" class="loader"></div>
+            <p id="noResults" class="no-results" style="display: none;">No results found for the selected filters.</p>
+        </div>
+        
+        <!-- Footer with Pagination -->
+        <footer>
+            <div id="rowCount" class="row-count"></div>
+            <div class="pagination-controls" id="pagination">
+                <!-- Pagination buttons will be generated here -->
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fetch Test</title>
+</head>
+<body>
+    <div id="result">Testing...</div>
+    <script>
+        console.log('Script started');
+        
+        fetch('data.json')
+            .then(response => {
+                console.log('Fetch response:', response.status, response.statusText);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data loaded:', data.length, 'records');
+                document.getElementById('result').textContent = `Success: Loaded ${data.length} records`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = `Error: ${error.message}`;
+            });
+    </script>
+</body>
+</html>

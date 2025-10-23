@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Datatable Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .pass { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Datatable Feature Test</h1>
+    <div id="test-results"></div>
+    
+    <script>
+        function runTests() {
+            const results = [];
+            
+            // Test 1: Check if data.json is accessible
+            fetch('/data.json')
+                .then(response => response.json())
+                .then(data => {
+                    results.push({
+                        test: "Data Loading",
+                        pass: data && data.length > 0,
+                        message: `Loaded ${data.length} records`
+                    });
+                    
+                    // Test 2: Check if allFreezePairs field exists
+                    const hasFreezePairs = data.some(item => item.allFreezePairs);
+                    results.push({
+                        test: "AllFreezePairs Field",
+                        pass: hasFreezePairs,
+                        message: hasFreezePairs ? "Field exists in data" : "Field missing"
+                    });
+                    
+                    // Test 3: Check for enhanced fields
+                    const requiredFields = ['memberName', 'membershipName', 'paymentMethod', 'amountPaid', 'locationName'];
+                    const hasAllFields = requiredFields.every(field => data[0].hasOwnProperty(field));
+                    results.push({
+                        test: "Enhanced Data Fields",
+                        pass: hasAllFields,
+                        message: hasAllFields ? "All enhanced fields present" : "Some fields missing"
+                    });
+                    
+                    // Test 4: Check freeze data format
+                    const freezeRecord = data.find(item => item.allFreezePairs && item.allFreezePairs !== '');
+                    if (freezeRecord) {
+                        const freezeFormat = /Attempt \d+: .+ to .+/.test(freezeRecord.allFreezePairs);
+                        results.push({
+                            test: "Freeze Data Format",
+                            pass: freezeFormat,
+                            message: freezeFormat ? "Freeze data format correct" : "Invalid freeze data format"
+                        });
+                    }
+                    
+                    displayResults(results);
+                })
+                .catch(error => {
+                    results.push({
+                        test: "Data Loading",
+                        pass: false,
+                        message: `Error: ${error.message}`
+                    });
+                    displayResults(results);
+                });
+        }
+        
+        function displayResults(results) {
+            const container = document.getElementById('test-results');
+            container.innerHTML = results.map(result => `
+                <div class="test-result ${result.pass ? 'pass' : 'fail'}">
+                    <strong>${result.test}:</strong> ${result.pass ? 'PASS' : 'FAIL'} - ${result.message}
+                </div>
+            `).join('');
+        }
+        
+        // Run tests when page loads
+        runTests();
+    </script>
+</body>
+</html>
